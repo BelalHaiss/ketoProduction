@@ -1,30 +1,11 @@
 const nodemailer = require('nodemailer');
-const { google } = require('googleapis');
 const handlebars = require('handlebars');
 const fs = require('fs');
 const path = require('path');
 
-const CLIENT_ID =
-  '321121808221-3nr9ud8n4oiugdod9tcgrdgpg1eo8boo.apps.googleusercontent.com';
-const CLIENT_SECRET = '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';
-const REDIRECT_URL = 'https://developers.google.com/oauthplayground';
-
-const oauth2Client = new google.auth.OAuth2(
-  CLIENT_ID,
-  CLIENT_SECRET,
-  REDIRECT_URL
-);
-
-oauth2Client.generateAuthUrl({
-  access_type: 'offline',
-  scope: 'https://mail.google.com/'
-});
-
 const resetPath = path.join(__dirname, 'requestResetPassword.handlebars');
 const successUpdatePath = path.join(__dirname, 'passwordUpdated.handlebars');
 
-const REFRESH_TOKEN =
-  '1//048YFIj3cokXBCgYIARAAGAQSNwF-L9Ir5W_gI3LqaytCnqh2YgtMYKYcuIFPusvygZgDJDKEXb2unx8YLmrHuM931NTZd8W7OBk';
 const sendEmail = async (email, subject, payload, senario) => {
   const source = fs.readFileSync(
     senario === 'reset' ? resetPath : successUpdatePath,
@@ -34,21 +15,14 @@ const sendEmail = async (email, subject, payload, senario) => {
   const compiledTemplate = handlebars.compile(source);
 
   try {
-    oauth2Client.setCredentials({
-      refresh_token: REFRESH_TOKEN
-    });
-    const accessToken = oauth2Client.getAccessToken();
     // create reusable transporter object using the default SMTP transport
     const transporter = nodemailer.createTransport({
-      service: 'gmail',
-
+      host: 'smtp.office365.com',
+      secureConnection: true,
+      port: 587,
       auth: {
-        type: 'OAuth2',
-        user: 'ketostylear@gmail.com',
-        clientId: CLIENT_ID,
-        clientSecret: CLIENT_SECRET,
-        refreshToken: REFRESH_TOKEN,
-        accessToken
+        user: 'support@ketonestyle.com',
+        pass: 'KetoStyle$$'
       }
     });
     const htmlTemplate = compiledTemplate(payload);
@@ -57,7 +31,7 @@ const sendEmail = async (email, subject, payload, senario) => {
       return {
         from: `${
           senario === 'reset' ? ' Password reset ' : 'Password changed'
-        } <ketostyleAR@gmail.com> `,
+        } <support@ketonestyle.com> `,
         to: email,
         subject: subject,
         html: htmlTemplate
@@ -66,9 +40,11 @@ const sendEmail = async (email, subject, payload, senario) => {
 
     // Send email
     transporter.sendMail(options(), (error, info) => {
+      console.log(info, 'info');
       if (error) {
-        console.log(error);
-        return error;
+        return res.status(404).json({
+          custom: 'حدث خطا برجاء المحاولة لاحقا'
+        });
       } else {
         return res.status(200).json({
           success: true
@@ -76,7 +52,9 @@ const sendEmail = async (email, subject, payload, senario) => {
       }
     });
   } catch (error) {
-    return error;
+    return res.status(404).json({
+      custom: 'حدث خطا برجاء المحاولة لاحقا'
+    });
   }
 };
 

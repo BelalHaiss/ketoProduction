@@ -9,6 +9,7 @@ services:
     entrypoint: sh /root/server/start_server.sh
   frontend:
     build:
+      context: .
       dockerfile: Dockerfile
     ports:
       - '80:80'

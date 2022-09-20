@@ -81,8 +81,8 @@ async function getTimes(req, res) {
 
 //  meals.controller
 async function getMeals(req, res, next) {
-  // if (!checkSubscription(req.user, 'meal'))
-  //   return res.status(401).json({ message: 'not subscribed' });
+  if (!checkSubscription(req.user, 'meal'))
+    return res.status(401).json({ message: 'not subscribed' });
 
   const page = req.query.page;
   if (!page) {

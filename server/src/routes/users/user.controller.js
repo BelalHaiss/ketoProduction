@@ -320,8 +320,8 @@ async function isMealAded(req, res, next) {
 }
 
 async function getMeals(req, res, next) {
-  // if (!checkSubscription(req.user, 'meal'))
-  //   return res.status(401).json({ message: 'not subscribed' });
+  if (!checkSubscription(req.user, 'meal'))
+    return res.status(401).json({ message: 'not subscribed' });
 
   const id = req.params.id;
   const queryDate = req.query.date;
@@ -352,8 +352,8 @@ async function getMeals(req, res, next) {
   res.json(resetMeals());
 }
 async function addMeal(req, res, next) {
-  // if (!checkSubscription(req.user, 'meal'))
-  //   return res.status(401).json({ message: 'not subscribed' });
+  if (!checkSubscription(req.user, 'meal'))
+    return res.status(401).json({ message: 'not subscribed' });
 
   const id = req.params.id;
   const { mealId, date, time } = req.body;
