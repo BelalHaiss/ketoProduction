@@ -15,6 +15,9 @@ const paymentSchema = new Schema({
   paypal: {
     orderId: String,
     payer: Object,
+    paymentID: String,
+    payerID: String,
+    subscriptionID: String,
     method: String,
     status: String
   },

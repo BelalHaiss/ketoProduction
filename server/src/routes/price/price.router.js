@@ -26,6 +26,7 @@ async function seedPrices(req, res) {
       usd: 50,
       price: 20,
       category: 'meal',
+      planId: 'P-5CM79678S6624820NMMV2GKY',
       plans: [
         {
           category: 'meal',
@@ -39,6 +40,8 @@ async function seedPrices(req, res) {
       usd: 50,
       price: 50,
       category: 'meal',
+      planId: 'P-4KM655282J028351NMMV2ITY',
+
       plans: [
         {
           category: 'meal',
@@ -56,6 +59,7 @@ async function seedPrices(req, res) {
       usd: 50,
       price: 80,
       category: 'meal',
+      planId: 'P-7LA32133FN6068549MMV2JBI',
       plans: [
         {
           category: 'meal',
@@ -77,6 +81,8 @@ async function seedPrices(req, res) {
       usd: 50,
       price: 20,
       category: 'nutritionist',
+      planId: 'P-5K547833MX202031FMMV2MQQ',
+
       plans: [
         {
           category: 'nutritionist',
@@ -90,6 +96,8 @@ async function seedPrices(req, res) {
       usd: 50,
       price: 15,
       category: 'workout',
+      planId: 'P-59S819129N026230UMMV2NQI',
+
       plans: [
         {
           category: 'workout',
@@ -98,12 +106,14 @@ async function seedPrices(req, res) {
       ]
     }
   ];
+  await Price.deleteMany({});
   await Price.create(prices);
   res.json(prices);
 }
 
 router.get('/', wrapAsync(getPrices));
 router.post('/seed', isAuthenticated, isAdmin, wrapAsync(seedPrices));
+// router.post('/seed', wrapAsync(seedPrices));
 router.post(
   '/update',
   isAuthenticated,

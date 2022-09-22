@@ -9,6 +9,7 @@ const priceSchema = new Schema({
     enum: ['meal', 'nutritionist', 'workout'],
     required: true
   },
+  planId: { type: String, required: true },
   plans: [
     {
       category: {
@@ -19,7 +20,8 @@ const priceSchema = new Schema({
       duration: { type: Number, required: true, min: 7, max: 180 }
     }
   ],
-  price: { type: Number, required: true },
+  discount: { type: Number, required: true, default: 0 },
+  price: { type: Number, required: true }, // price after discount
   usd: { type: Number, required: true }
 });
 

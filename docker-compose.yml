@@ -17,5 +17,6 @@ services:
     volumes:
       - ./out:/var/www/html
       - ./default.conf:/etc/nginx/sites-available/default
+      - ./letsencrypt:/etc/letsencrypt
     depends_on:
       - server

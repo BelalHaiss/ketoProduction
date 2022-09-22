@@ -66,6 +66,10 @@ async function countUsers(req, res, next) {
   });
   res.json(counts);
 }
+async function getAllUsers(req, res) {
+  const users = await User.find({ role: null });
+  res.json(users);
+}
 
 async function changeUserPassword(req, res, next) {
   const id = req.params.id;
@@ -93,12 +97,19 @@ async function deleteRoled(req, res) {
   await User.findByIdAndRemove(req.params.id);
   res.json({ msg: 'done' });
 }
+
+async function removeUser(req, res) {
+  await User.findByIdAndRemove(req.params.id);
+  res.json({ msg: 'done' });
+}
 module.exports = {
   deleteRoled,
   adminRegister,
   getAgents,
   changePermission,
+  getAllUsers,
   searchUser,
   countUsers,
+  removeUser,
   changeUserPassword
 };

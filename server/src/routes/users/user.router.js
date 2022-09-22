@@ -21,6 +21,7 @@ const {
   getWater,
   isMealAded,
   deleteMeal,
+  addCustomMeal,
   addMeal,
   getMeals,
   updateMeats
@@ -33,6 +34,7 @@ const {
   validateMeats,
   validateEditAccount,
   validateLogin,
+  validateCustomMeal,
   validateUpdateMeasurements,
   validateWater,
   validateAddUserMeal
@@ -127,6 +129,13 @@ router.post(
   isAuthorizedUser,
   wrapAsync(validateAddUserMeal),
   wrapAsync(addMeal)
+);
+router.post(
+  '/addcustommeal/:id',
+  isAuthenticated,
+  isAuthorizedUser,
+  wrapAsync(validateCustomMeal),
+  wrapAsync(addCustomMeal)
 );
 router.get(
   '/ismealadded/:id',

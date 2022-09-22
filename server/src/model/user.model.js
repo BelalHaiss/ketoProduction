@@ -29,7 +29,13 @@ const userSchema = new Schema(
       breakfast: [{ type: Schema.Types.ObjectId, ref: 'Meal' }],
       lunch: [{ type: Schema.Types.ObjectId, ref: 'Meal' }],
       dinner: [{ type: Schema.Types.ObjectId, ref: 'Meal' }],
-      snack: [{ type: Schema.Types.ObjectId, ref: 'Meal' }]
+      snack: [{ type: Schema.Types.ObjectId, ref: 'Meal' }],
+      custom: {
+        carbs: { type: Number, default: 0 },
+        proteins: { type: Number, default: 0 },
+        fats: { type: Number, default: 0 },
+        calories: { type: Number, default: 0 }
+      }
     },
     measurements: {
       height: Number,

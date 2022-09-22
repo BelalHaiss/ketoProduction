@@ -294,10 +294,13 @@ async function getStatus(req, res, next) {
 }
 
 const resetMeals = () => ({
-  breakfast: [],
-  lunch: [],
-  dinner: [],
-  snack: []
+  mealsData: { breakfast: [], lunch: [], dinner: [], snack: [] },
+  custom: {
+    carbs: 0,
+    proteins: 0,
+    fats: 0,
+    calories: 0
+  }
 });
 
 async function isMealAded(req, res, next) {
@@ -339,6 +342,7 @@ async function getMeals(req, res, next) {
   ]);
   if (user.meals && user.meals.date === queryDate) {
     user.meals.date = undefined;
+    const { custom, snack, lunch, dinner, breakfast } = user.meals;
 
     // Object.keys(user.meals).map((time) => {
     //   time !== 'date' &&
@@ -347,7 +351,7 @@ async function getMeals(req, res, next) {
     //       user.meals[time][i]['image'] = energy['image'];
     //     });
     // });
-    return res.json(user.meals);
+    return res.json({ mealsData: { snack, lunch, dinner, breakfast }, custom });
   }
   res.json(resetMeals());
 }
@@ -366,8 +370,7 @@ async function addMeal(req, res, next) {
     return res.status(404).json({ name: 'custom', message: 'meal not found' });
   }
   const sameTime = isMeal.time === time;
-  const sameCategory = user.categories.includes(isMeal.category);
-  if (!sameTime || !sameCategory) {
+  if (!sameTime) {
     return res.status(404).json({ name: 'custom', message: 'خطا' });
   }
 
@@ -381,14 +384,47 @@ async function addMeal(req, res, next) {
     user.meals[time].push(mealId);
     await user.save();
 
-    return res.json(user.meals);
+    return res.json({ msg: 'added' });
   }
-  user.meals = resetMeals();
+  user.meals = { custom: resetMeals().custom, ...resetMeals().mealsData };
   user.meals.date = date;
   user.meals[time].push(mealId);
   await user.save();
 
-  res.json(user.meals);
+  res.json({ msg: 'added' });
+}
+
+async function addCustomMeal(req, res, next) {
+  if (!checkSubscription(req.user, 'meal'))
+    return res.status(401).json({ message: 'not subscribed' });
+
+  const id = req.params.id;
+  const { carbs, proteins, fats, calories, date } = req.body;
+
+  const user = await User.findById(id);
+
+  if (user.meals && user.meals.date === date) {
+    user.meals.custom = {
+      carbs: user.meals.custom.carbs + carbs,
+      proteins: user.meals.custom.proteins + proteins,
+      fats: user.meals.custom.fats + fats,
+      calories: user.meals.custom.calories + calories
+    };
+    await user.save();
+
+    return res.json({ msg: 'added' });
+  }
+  user.meals = { custom: resetMeals().custom, ...resetMeals().mealsData };
+  user.meals.date = date;
+  user.meals.custom = {
+    carbs,
+    proteins,
+    fats,
+    calories
+  };
+  await user.save();
+
+  res.json({ msg: 'added' });
 }
 
 async function deleteMeal(req, res, next) {
@@ -424,6 +460,7 @@ module.exports = {
   updateUserMeasurments,
   resetPasswordReq,
   resetPasswordRes,
+  addCustomMeal,
   updateAccount,
   changeUserPassword,
   addWater,

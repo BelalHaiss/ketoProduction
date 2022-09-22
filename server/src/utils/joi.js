@@ -244,9 +244,10 @@ async function validatePrice(req, res, next) {
         price: Joi.number().required(),
         plans: Joi.array(),
         usd: Joi.number().required(),
-        _id: Joi.string().required()
+        _id: Joi.string().required(),
+        discount: Joi.number().required()
       })
-        .length(6)
+        .length(7)
         .required()
     )
     .length(5)
@@ -328,6 +329,19 @@ async function validateMeats(req, res, next) {
   await schema.validateAsync(req.body);
   next();
 }
+async function validateCustomMeal(req, res, next) {
+  const schema = Joi.object({
+    carbs: Joi.number().required(),
+    proteins: Joi.number().required(),
+    fats: Joi.number().required(),
+    calories: Joi.number().required(),
+    date: Joi.date().required()
+  })
+    .length(5)
+    .required();
+  await schema.validateAsync(req.body);
+  next();
+}
 module.exports = {
   validateRegister,
   validateUpdateMeasurements,
@@ -337,6 +351,7 @@ module.exports = {
   validateWorkout,
   validateStatus,
   validateAdminRegister,
+  validateCustomMeal,
   validatePrice,
   validateEditAccount,
   changePassword,

@@ -3,7 +3,8 @@ const {
   wrapAsync,
   isAuthenticated,
   isAdmin,
-  isPermission
+  isPermission,
+  isAdminOnly
 } = require('../../utils/utils');
 const {
   validateAdminRegister,
@@ -17,7 +18,9 @@ const {
   getAgents,
   countUsers,
   changeUserPassword,
-  deleteRoled
+  deleteRoled,
+  removeUser,
+  getAllUsers
 } = require('./admin.controller');
 const {
   updateUserMeasurments,
@@ -91,5 +94,7 @@ router.patch(
   isPermission,
   wrapAsync(changeUserPassword)
 );
+router.delete('/user/:id', isAuthenticated, isAdminOnly, wrapAsync(removeUser));
+router.get('/allusers/', isAuthenticated, isAdminOnly, wrapAsync(getAllUsers));
 
 module.exports = router;
