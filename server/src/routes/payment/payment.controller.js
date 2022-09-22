@@ -1,7 +1,6 @@
 const User = require('../../model/user.model');
 const Payment = require('../../model/payment.model');
 const Price = require('../../model/price.model');
-const { CustomError } = require('../../utils/utils');
 
 async function addPaymentToUser(theUser, payment) {
   theUser.payments.push(payment);
@@ -132,8 +131,12 @@ async function getAllPayments(req, res) {
       });
     return res.json(!isFound ? [] : isFound.payments);
   } else if (date) {
+    const endDate = new Date(end);
     const payments = await Payment.find({
-      createdAt: { $gte: new Date(start), $lte: new Date(end) },
+      createdAt: {
+        $gte: new Date(start),
+        $lte: new Date(endDate.setDate(endDate.getDate() + 1))
+      },
       status
     })
       .populate('userId', 'profile.name profile.lastName')
