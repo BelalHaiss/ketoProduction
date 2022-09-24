@@ -7,14 +7,14 @@ const resetPath = path.join(__dirname, 'requestResetPassword.handlebars');
 const successUpdatePath = path.join(__dirname, 'passwordUpdated.handlebars');
 
 const sendEmail = async (email, subject, payload, senario) => {
-  const source = fs.readFileSync(
-    senario === 'reset' ? resetPath : successUpdatePath,
-    'utf8'
-  );
-
-  const compiledTemplate = handlebars.compile(source);
-
   try {
+    const source = fs.readFileSync(
+      senario === 'reset' ? resetPath : successUpdatePath,
+      'utf8'
+    );
+
+    const compiledTemplate = handlebars.compile(source);
+
     // create reusable transporter object using the default SMTP transport
     const transporter = nodemailer.createTransport({
       host: 'smtp.office365.com',
@@ -37,24 +37,11 @@ const sendEmail = async (email, subject, payload, senario) => {
         html: htmlTemplate
       };
     };
-
     // Send email
-    transporter.sendMail(options(), (error, info) => {
-      console.log(info, 'info');
-      if (error) {
-        return res.status(404).json({
-          custom: 'حدث خطا برجاء المحاولة لاحقا'
-        });
-      } else {
-        return res.status(200).json({
-          success: true
-        });
-      }
-    });
+    await transporter.sendMail(options());
   } catch (error) {
-    return res.status(404).json({
-      custom: 'حدث خطا برجاء المحاولة لاحقا'
-    });
+    console.log(error, 'mail error');
+    throw new Error('حدث خطا برجاء المحاولة لاحقا');
   }
 };
 
