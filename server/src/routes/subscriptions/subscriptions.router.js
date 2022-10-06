@@ -10,10 +10,12 @@ const {
 } = require('../../utils/utils');
 const {
   getAllSubscriptions,
-  testSubscriptions
+  testSubscriptions,
+  addCustomSubscription
 } = require('./subscriptions.controller');
 router.use(isAuthenticated);
 
 router.get('/all?', isAdminOnly, wrapAsync(getAllSubscriptions));
 // router.post('/test', wrapAsync(testSubscriptions));
+router.post('/free', isAdminOnly, wrapAsync(addCustomSubscription));
 module.exports = router;

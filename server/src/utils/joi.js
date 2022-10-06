@@ -242,13 +242,11 @@ async function validatePrice(req, res, next) {
         label: Joi.string().required(),
         category: Joi.string().valid('meal', 'nutritionist', 'workout'),
         price: Joi.number().required(),
+        before: Joi.number().required(),
         plans: Joi.array(),
-        usd: Joi.number().required(),
-        _id: Joi.string().required(),
-        planId: Joi.string().required(),
-        discount: Joi.number().required()
+        _id: Joi.string().required()
       })
-        .length(8)
+        .length(7)
         .required()
     )
     .length(5)
@@ -310,20 +308,7 @@ async function validateAddUserMeal(req, res, next) {
   await schema.validateAsync(req.body);
   next();
 }
-async function validateNewPayment(req, res, next) {
-  const schema = Joi.object({
-    priceId: Joi.string().required(),
-    category: validatePlansCategory().required(),
-    userId: Joi.string().length(24).required(),
-    paid: Joi.number().required(),
-    paypal: Joi.object(),
-    isFailed: Joi.boolean()
-  })
-    .length(6)
-    .required();
-  await schema.validateAsync(req.body);
-  next();
-}
+
 async function validateMeats(req, res, next) {
   const schema = Joi.array().items(validateCategory()).required();
 
@@ -357,7 +342,7 @@ module.exports = {
   validateEditAccount,
   changePassword,
   validateWater,
-  validateNewPayment,
+
   validateMeats,
   validateAddUserMeal
 };

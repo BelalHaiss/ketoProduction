@@ -12,16 +12,6 @@ const paymentSchema = new Schema({
   },
   paid: Number,
 
-  paypal: {
-    orderId: String,
-    payer: Object,
-    paymentID: String,
-    payerID: String,
-    subscriptionID: String,
-    method: String,
-    status: String
-  },
-
   status: {
     type: String,
     enum: ['success', 'fail']
@@ -30,10 +20,16 @@ const paymentSchema = new Schema({
     type: String,
     enum: ['meal', 'nutritionist', 'workout']
   },
+  paypal: {
+    customer: Object,
+    id: String,
+    method: String
+  },
   priceId: {
     type: String,
     ref: 'Price'
   },
+  hash: { type: Boolean, default: true },
   fraud: { type: Boolean, default: false },
   alreadySubscriped: { type: Boolean, default: false } // is already Subscriped
 });

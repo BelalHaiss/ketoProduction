@@ -26,7 +26,6 @@ async function seedPrices(req, res) {
       usd: 50,
       price: 20,
       category: 'meal',
-      planId: 'P-5CM79678S6624820NMMV2GKY',
       plans: [
         {
           category: 'meal',
@@ -40,7 +39,6 @@ async function seedPrices(req, res) {
       usd: 50,
       price: 50,
       category: 'meal',
-      planId: 'P-4KM655282J028351NMMV2ITY',
 
       plans: [
         {
@@ -59,7 +57,6 @@ async function seedPrices(req, res) {
       usd: 50,
       price: 80,
       category: 'meal',
-      planId: 'P-7LA32133FN6068549MMV2JBI',
       plans: [
         {
           category: 'meal',
@@ -81,7 +78,6 @@ async function seedPrices(req, res) {
       usd: 50,
       price: 20,
       category: 'nutritionist',
-      planId: 'P-5K547833MX202031FMMV2MQQ',
 
       plans: [
         {
@@ -96,7 +92,6 @@ async function seedPrices(req, res) {
       usd: 50,
       price: 15,
       category: 'workout',
-      planId: 'P-59S819129N026230UMMV2NQI',
 
       plans: [
         {

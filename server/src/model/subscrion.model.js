@@ -13,8 +13,7 @@ const subscriptionSchema = new Schema({
   },
   paymentId: {
     type: Schema.Types.ObjectId,
-    ref: 'Payment',
-    required: true
+    ref: 'Payment'
   },
   category: {
     type: String,
@@ -25,6 +24,10 @@ const subscriptionSchema = new Schema({
     type: String,
     ref: 'Price',
     required: true
+  },
+  isFree: {
+    type: Boolean,
+    default: false
   }
 });
 subscriptionSchema.post('save', async function (doc) {
