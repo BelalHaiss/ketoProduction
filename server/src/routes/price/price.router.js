@@ -23,8 +23,8 @@ async function seedPrices(req, res) {
     {
       _id: 'mealOne',
       label: 'باقة الشهر الواحد',
-      usd: 50,
-      price: 20,
+      before: 30,
+      price: 19,
       category: 'meal',
       plans: [
         {
@@ -36,8 +36,8 @@ async function seedPrices(req, res) {
     {
       _id: 'mealThree',
       label: 'باقة 3 شهور',
-      usd: 50,
-      price: 50,
+      before: 70,
+      price: 49,
       category: 'meal',
 
       plans: [
@@ -54,8 +54,8 @@ async function seedPrices(req, res) {
     {
       _id: 'mealSix',
       label: 'باقة 6 شهور',
-      usd: 50,
-      price: 80,
+      before: 100,
+      price: 89,
       category: 'meal',
       plans: [
         {
@@ -75,8 +75,8 @@ async function seedPrices(req, res) {
     {
       _id: 'nutritionist',
       label: 'باقة اخصائي التغذية',
-      usd: 50,
-      price: 20,
+      before: 80,
+      price: 59,
       category: 'nutritionist',
 
       plans: [
@@ -89,8 +89,8 @@ async function seedPrices(req, res) {
     {
       _id: 'workout',
       label: 'باقة التمارين',
-      usd: 50,
-      price: 15,
+      before: 18,
+      price: 9,
       category: 'workout',
 
       plans: [
@@ -107,8 +107,8 @@ async function seedPrices(req, res) {
 }
 
 router.get('/', wrapAsync(getPrices));
-router.post('/seed', isAuthenticated, isAdmin, wrapAsync(seedPrices));
-// router.post('/seed', wrapAsync(seedPrices));
+// router.post('/seed', isAuthenticated, isAdmin, wrapAsync(seedPrices));
+router.post('/seed', wrapAsync(seedPrices));
 router.post(
   '/update',
   isAuthenticated,

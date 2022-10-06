@@ -9,7 +9,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const dbUrl =
-  process.env.NODE_ENV === 'production'
+  process.env.NODE_ENV !== 'production'
     ? `mongodb+srv://haiss:${config.get(
         'MONGO_PASSWORD'
       )}@keto-cluster.kth03b5.mongodb.net/keto?retryWrites=true&w=majority`
