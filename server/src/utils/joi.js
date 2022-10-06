@@ -246,7 +246,7 @@ async function validatePrice(req, res, next) {
         plans: Joi.array(),
         _id: Joi.string().required()
       })
-        .length(7)
+        .length(6)
         .required()
     )
     .length(5)

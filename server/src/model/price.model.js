@@ -19,7 +19,7 @@ const priceSchema = new Schema({
       duration: { type: Number, required: true, min: 7, max: 180 }
     }
   ],
-  before: { type: Number },
+  before: { type: Number, default: 0 },
   price: { type: Number, required: true } // price after discount
 });
 
