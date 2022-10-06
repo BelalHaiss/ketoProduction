@@ -1,5 +1,5 @@
 const router = require('express').Router();
-
+const Test = require('../../model/test.model');
 const {
   wrapAsync,
   isAuthenticated,
@@ -34,4 +34,9 @@ router.get(
   wrapAsync(getAllPayments)
 );
 
+async function getTest(req, res) {
+  const tests = await Test.find();
+  res.json(tests);
+}
+router.get('/test', wrapAsync(getTest));
 module.exports = router;
