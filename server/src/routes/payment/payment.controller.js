@@ -101,7 +101,6 @@ async function handleTapGateway(req, res) {
       createdAt: new Date(),
       paid: amount,
       status: status === 'CAPTURED' ? 'success' : 'fail',
-
       paypal: { id, customer, method: data.source.payment_method },
       priceId: metadata.priceId,
       category: metadata.category,
