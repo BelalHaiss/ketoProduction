@@ -89,7 +89,7 @@ async function handleTapGateway(req, res) {
     const { gateway, payment } = data.reference;
     const created = data.transaction.created;
     const thePrice = await Price.findById(metadata.priceId);
-    await TestModel.create({ data, any: data });
+    await TestModel.create({ any: data });
     const SecretAPIKey = 'sk_live_1BFJ4SRCK9kmz6HTXbxf2iNM';
     const myHash = `x_id${id}x_amount${amount}.00x_currency${currency}x_gateway_reference${gateway}x_payment_reference${payment}x_status${status}x_created${created}`;
     const hash = createHmac('SHA256', SecretAPIKey)
@@ -100,8 +100,8 @@ async function handleTapGateway(req, res) {
       userId: metadata.userId,
       createdAt: new Date(),
       paid: amount,
-      // status: status === 'captured' ? 'success' : 'fail',
-      status: 'success',
+      status: status === 'CAPTURED' ? 'success' : 'fail',
+
       paypal: { id, customer, method: data.source.payment_method },
       priceId: metadata.priceId,
       category: metadata.category,
