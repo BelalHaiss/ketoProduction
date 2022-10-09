@@ -34,8 +34,8 @@ async function seedWorkout(req, res) {
 }
 
 async function getDayById(req, res) {
-  if (!checkSubscription(req.user, 'workout'))
-    return res.status(401).json({ message: 'not subscribed' });
+  // if (!checkSubscription(req.user, 'workout'))
+  //   return res.status(401).json({ message: 'not subscribed' });
 
   const workout = await Workout.findById(req.params.id);
   res.json(workout.videos);
