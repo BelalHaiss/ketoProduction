@@ -162,7 +162,7 @@ async function getPayLink(req, res) {
         headers: { Authorization: 'Bearer ' + Token }
       });
       await TransactionNums.create({
-        transactionNum: transactionNo,
+        transactionNum: payLink.data.transactionNo,
         token: Token
       });
 
