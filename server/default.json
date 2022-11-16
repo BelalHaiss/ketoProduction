@@ -1,0 +1,8 @@
+{
+  "COOKIE_KEY1": "difecto#$%^&*()_+",
+  "DEV_CLIENT_URL": "http://localhost:3000",
+  "CLIENT_URL": "http://ketonestyle.com",
+  "SERVER_URL": "http://localhost:5000",
+  "MONGO_USERNAME": "haiss",
+  "MONGO_PASSWORD": "90OPN3G1jxUOLW0L"
+}

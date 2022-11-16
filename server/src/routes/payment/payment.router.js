@@ -11,11 +11,19 @@ const {
 const {
   getUserPayment,
   getAllPayments,
-
+  getPaylinkToken,
+  getPayLink,
+  checkPayment,
   handleTapGateway
 } = require('./payment.controller');
 
-router.post('/tap', wrapAsync(handleTapGateway));
+// router.post('/tap', wrapAsync(handleTapGateway));
+
+router.get('/token', wrapAsync(getPaylinkToken));
+
+router.post('/payLink', wrapAsync(getPayLink));
+
+router.get('/check_payment', wrapAsync(checkPayment));
 
 router.get(
   '/user/:id',
@@ -38,5 +46,5 @@ async function getTest(req, res) {
   const tests = await Test.find();
   res.json(tests);
 }
-router.get('/test', wrapAsync(getTest));
+// router.get('/test', wrapAsync(getTest));
 module.exports = router;

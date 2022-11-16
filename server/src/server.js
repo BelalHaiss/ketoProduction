@@ -5,7 +5,6 @@ const path = require('path');
 const express = require('express');
 const app = express();
 const mongoSanitize = require('express-mongo-sanitize');
-
 const cors = require('cors');
 const mongoose = require('mongoose');
 const dbUrl =
