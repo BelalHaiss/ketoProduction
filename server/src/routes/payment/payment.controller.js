@@ -2,6 +2,7 @@ const User = require('../../model/user.model');
 const Payment = require('../../model/payment.model');
 const Price = require('../../model/price.model');
 const TestModel = require('../../model/test.model');
+const TransactionNums = require('../../model/transactionNums.model');
 const axios = require('axios');
 
 const { createHmac } = require('crypto');
@@ -144,8 +145,7 @@ async function getPayLink(req, res) {
     });
 
     if (token.data?.id_token) {
-      global.token = token.data?.id_token;
-
+      const Token = token.data?.id_token;
       const payLink = await axios({
         method: 'post',
         url: process.env.PAY_LINK_URL + '/api/addInvoice',
@@ -159,10 +159,15 @@ async function getPayLink(req, res) {
           clientEmail,
           note: JSON.stringify({ callBackUrl, userId, plan })
         },
-        headers: { Authorization: 'Bearer ' + token.data?.id_token }
+        headers: { Authorization: 'Bearer ' + Token }
+      });
+      await TransactionNums.create({
+        transactionNum: transactionNo,
+        token: Token
       });
 
-      // console.log(payLink.data);
+      console.log({ paylink: payLink.data });
+      console.log({ token: token.data });
       if (payLink.data?.url) return res.send(payLink.data?.url);
     }
   } catch (error) {
@@ -175,13 +180,14 @@ async function getPayLink(req, res) {
 
 async function checkPayment(req, res) {
   const { transactionNo } = req.query;
-  console.log(global.token, transactionNo);
-
+  const theTransaction = await TransactionNums.findOne({
+    transactionNum: transactionNo
+  });
   try {
     const payLink = await axios({
       method: 'get',
       url: process.env.PAY_LINK_URL + '/api/getInvoice/' + transactionNo,
-      headers: { Authorization: 'Bearer ' + global.token }
+      headers: { Authorization: 'Bearer ' + theTransaction.token }
     });
 
     const { orderStatus, gatewayOrderRequest } = payLink.data;
