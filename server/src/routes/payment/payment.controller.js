@@ -135,7 +135,7 @@ async function getPayLink(req, res) {
   try {
     const token = await axios({
       method: 'post',
-      url: 'https://restpilot.paylink.sa/api/auth',
+      url: process.env.PAY_LINK_URL + '/api/auth',
       data: {
         apiId: process.env.AP_ID,
         persistToken: false,
@@ -148,7 +148,7 @@ async function getPayLink(req, res) {
 
       const payLink = await axios({
         method: 'post',
-        url: 'https://restpilot.paylink.sa/api/addInvoice',
+        url: process.env.PAY_LINK_URL + '/api/addInvoice',
         data: {
           amount,
           callBackUrl: process.env.BASE_URL + 'api/payments/check_payment',
@@ -168,7 +168,6 @@ async function getPayLink(req, res) {
   } catch (error) {
     console.log(error);
     return res.status(400).json({
-      name: 'custom',
       message: 'برجاء المحاولة لاحقا'
     });
   }
@@ -181,7 +180,7 @@ async function checkPayment(req, res) {
   try {
     const payLink = await axios({
       method: 'get',
-      url: 'https://restpilot.paylink.sa/api/getInvoice/' + transactionNo,
+      url: process.env.PAY_LINK_URL + '/api/getInvoice/' + transactionNo,
       headers: { Authorization: 'Bearer ' + global.token }
     });
 
@@ -229,7 +228,7 @@ async function getPaylinkToken(req, res) {
       //   persistToken: false,
       //   secretKey: "32a58d9e-dcb0-3d49-b23b-8d2254aa69b8",
       // },
-      url: 'https://restpilot.paylink.sa/api/auth',
+      url: process.env.PAY_LINK_URL + '/api/auth',
       data: {
         apiId: 'APP_ID_1123453311',
         persistToken: false,
