@@ -166,8 +166,6 @@ async function getPayLink(req, res) {
         token: Token
       });
 
-      console.log({ paylink: payLink.data });
-      console.log({ token: token.data });
       if (payLink.data?.url) return res.send(payLink.data?.url);
     }
   } catch (error) {
